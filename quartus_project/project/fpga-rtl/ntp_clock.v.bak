@@ -1,0 +1,221 @@
+module ntp_clock (
+    input wire clk,               // Тактовый сигнал (50 МГц)
+    input wire reset_n,           // Сброс (активный низкий уровень)
+	 input [31:0] HPS_CLOCK,
+	 inout [35:0] GPIO1,
+	 inout [35:0] GPIO2,
+    output wire [6:0] hex2,       // Семисегментный индикатор (минуты, единицы)
+    output wire [6:0] hex3,       // Семисегментный индикатор (минуты, десятки)
+    output wire [6:0] hex4,       // Семисегментный индикатор (часы, единицы)
+    output wire [6:0] hex5        // Семисегментный индикатор (часы, десятки)
+);
+
+// Внутренние сигналы для семисегментных индикаторов
+	wire [6:0] seg_minutes_units;
+	wire [6:0] seg_minutes_tens;
+	wire [6:0] seg_hours_units;
+	wire [6:0] seg_hours_tens;
+
+
+// Преобразуем секунды, минуты и часы в семисегментный код
+seven_segment seg_minutes_u (
+    .digit( HPS_CLOCK[7:0] ),  // Единицы минут
+    .seg(seg_minutes_units)
+);
+
+seven_segment seg_minutes_t (
+    .digit( HPS_CLOCK[15:8] ),  // Десятки минут
+    .seg(seg_minutes_tens)
+);
+
+seven_segment seg_hours_u (
+    .digit( HPS_CLOCK[23:16] ),    // Единицы часов
+    .seg(seg_hours_units)
+);
+
+seven_segment seg_hours_t (
+    .digit( HPS_CLOCK[31:24] ),    // Десятки часов
+    .seg(seg_hours_tens)
+);
+
+motors seg11(
+    .mclk(clk),
+	 .control_input(seg_minutes_units[0:0]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg12(
+    .mclk(clk),
+	 .control_input(seg_minutes_units[1:1]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg13(
+    .mclk(clk),
+	 .control_input(seg_minutes_units[2:2]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg14(
+    .mclk(clk),
+	 .control_input(seg_minutes_units[3:3]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg15(
+    .mclk(clk),
+	 .control_input(seg_minutes_units[4:4]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg16(
+    .mclk(clk),
+	 .control_input(seg_minutes_units[5:5]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+
+motors seg17(
+    .mclk(clk),
+	 .control_input(seg_minutes_units[6:6]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+
+motors seg21(
+    .mclk(clk),
+	 .control_input(seg_minutes_tens[0:0]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+
+motors seg22(
+    .mclk(clk),
+	 .control_input(seg_minutes_tens[1:1]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+
+motors seg23(
+    .mclk(clk),
+	 .control_input(seg_minutes_tens[2:2]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg24(
+    .mclk(clk),
+	 .control_input(seg_minutes_tens[3:3]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg25(
+    .mclk(clk),
+	 .control_input(seg_minutes_tens[4:4]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg26(
+    .mclk(clk),
+	 .control_input(seg_minutes_tens[5:5]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+
+motors seg27(
+    .mclk(clk),
+	 .control_input(seg_minutes_tens[6:6]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg31(
+    .mclk(clk),
+	 .control_input(seg_hours_units[0:0]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg32(
+    .mclk(clk),
+	 .control_input(seg_hours_units[1:1]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg33(
+    .mclk(clk),
+	 .control_input(seg_hours_units[2:2]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg34(
+    .mclk(clk),
+	 .control_input(seg_hours_units[3:3]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg35(
+    .mclk(clk),
+	 .control_input(seg_hours_units[4:4]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+
+motors seg36(
+    .mclk(clk),
+	 .control_input(seg_hours_units[5:5]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg37(
+    .mclk(clk),
+	 .control_input(seg_hours_units[6:6]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg41(
+    .mclk(clk),
+	 .control_input(seg_hours_tens[0:0]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg42(
+    .mclk(clk),
+	 .control_input(seg_hours_tens[1:1]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg43(
+    .mclk(clk),
+	 .control_input(seg_hours_tens[2:2]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg44(
+    .mclk(clk),
+	 .control_input(seg_hours_tens[3:3]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg45(
+    .mclk(clk),
+	 .control_input(seg_hours_tens[4:4]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg46(
+    .mclk(clk),
+	 .control_input(seg_hours_tens[5:5]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+motors seg47(
+    .mclk(clk),
+	 .control_input(seg_hours_tens[6:6]),  //Use this as the control input
+    .servo(GPIO1[0:0])
+);
+
+// Назначаем выходные сигналы
+assign hex2 = seg_minutes_units;
+assign hex3 = seg_minutes_tens;
+assign hex4 = seg_hours_units;
+assign hex5 = seg_hours_tens;
+
+endmodule
